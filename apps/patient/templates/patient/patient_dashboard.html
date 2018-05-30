@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <title>patient dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'patient/css/patient_dashboard.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop()) {
+                $('nav').addClass('black');
+            }
+            else {
+                $('nav').removeClass('black')
+            }
+        })
+    </script>
+    <style>
+        h4.h4_doc{
+            margin: 0 auto;
+            width: 80%;
+        }
+        h5{
+            margin: 0 auto;
+            width: 80%;
+        }
+        div.low{
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <nav>
+            <div class="logo">
+                <img src="{% static 'patient/images/logo_full_hor.png' %}" /> </div>
+            <ul>
+                <li>
+                    <a href="/">Home</a> 
+                </li>
+                <li>
+                    <a href="/patient/about">About</a>
+                </li>
+                <li>
+                    <a href="/patient/edit_profile_html"> {{patient.first_name}} {{patient.last_name}} </a>
+                </li>
+                <li>
+                    <a class='active' href="/patient/logout">logout</a>
+                </li>
+            </ul>
+        </nav>
+
+        <section class='content'>
+            <hr>
+            <h4 class='h4_doc'>Your doctor is: {{doctor.first_name}} {{doctor.last_name}} |
+                <a href="tel:{{doctor.phone}}">&#x260E;{{doctor.phone}} </a> | Email: <a href="mailto:{{patient.email}}">&#x2709;{{doctor.email}}</a>
+            </h4>
+            
+        </section>
+        <h5>Diabetic Type: {{patient.diabetes}}</h5>
+
+
+        
+        <hr>
+
+
+
+
+
+<div class="left_table">
+
+    
+    <section class='table'>
+        {% if entries %}
+        <table class='table'>
+            <thead class='thead-dark'>
+                <th scope="col">date</th>
+                <th scope="col">systolic</th>
+                <th scope="col">diastolic</th>
+                <th scope="col">bloodsugar</th>
+                <th scope="col">heartrate</th>
+            </thead>
+            {% for entry in entries %}
+                {% csrf_token %}
+                    <tbody>
+                        <td>{{entry.created_at}}</td>
+                        {% if entry.systolic < 120 and entry.diastolic < 80%}
+                            <td class="green">{{entry.systolic}}</td>
+                            <td class="green">{{entry.diastolic}}</td>
+                        {% elif entry.systolic < 130 and entry.diastolic < 80 %}
+                            <td class="yellow">{{entry.systolic}}</td>
+                            <td class="yellow">{{entry.diastolic}}</td>
+                        {% elif entry.systolic < 140 or entry.diastolic < 90 %}
+                            <td class="orange">{{entry.systolic}}</td>
+                            <td class="orange">{{entry.diastolic}}</td>
+                        {% elif entry.systolic < 180 or entry.diastolic < 120 %}
+                            <td class="red">{{entry.systolic}}</td>
+                            <td class="red">{{entry.diastolic}}</td>
+                        {% else %}
+                            <td class="hypertension">{{entry.systolic}}</td>
+                            <td class="hypertension">{{entry.diastolic}}</td>
+                        {% endif %}
+                            <td>{{entry.bloodsugar}}</td>
+                            <td>{{entry.heartrate}}</td>
+                    </tbody>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </section>
+</div>
+    
+    
+    
+    <div class="right_input">
+
+                <div class='content_update'>
+                    <hr>
+                    <h4>how are you feeling?</h4>
+                    {% if messages %} {% for message in messages %}
+                    <ul class="messages_error">
+                        <li>
+                            <small class="form-text text-muted">{{ message }}</small>
+                        </li>
+                    </ul>
+                    {% endfor %} {% endif %}
+                    
+                    <form action='/patient/update_health' method='post'>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="number" name="systolic" class="form-control" placeholder="Systolic ex 120" oninput="validity.valid||(value='');"
+                            title="Don't be shy...">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="diastolic" class="form-control" placeholder="Diastolic ex. 70" oninput="validity.valid||(value='');"
+                            title="We won't judge you...">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="bloodsugar" class="form-control" placeholder="Blood sugar ex. 9.1" oninput="validity.valid||(value='');"
+                            step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="heartrate" class="form-control" placeholder="resting HR ex. 80" oninput="validity.valid||(value='');"
+                            title="We won't judge you...">
+                            </div>
+                        <button type="submit" class="btn btn-primary">submit</button>
+                    </form>
+                </div>
+            </div>
+
+
+        <!-- <div class="low">
+            <div class="col-md-12 margin-bottom-10"><hr /><p><strong>Blood pressure categories</strong><br />The five blood pressure ranges as recognized by the American Heart Association are:</p><ul><li><strong>Normal blood pressure</strong><br />Congratulations on having blood pressure numbers that are within the normal (optimal) range of less than 120/80 mm Hg. Keep up the good work and stick with <a href="/HEARTORG/Conditions/HighBloodPressure/MakeChangesThatMatter/Changes-You-Can-Make-to-Manage-High-Blood-Pressure_UCM_002054_Article.jsp">heart-healthy habits</a>&nbsp;like following a balanced diet and getting regular exercise.<br />&nbsp;</li><li><strong>Elevated<br /></strong>Elevated blood pressure is when readings are consistently ranging from 120-129 systolic and less than 80 mm Hg diastolic. People with elevated blood pressure are likely to develop high blood pressure unless steps are taken to <a href="/HEARTORG/Conditions/HighBloodPressure/MakeChangesThatMatter/Changes-You-Can-Make-to-Manage-High-Blood-Pressure_UCM_002054_Article.jsp">control it</a>.<br />&nbsp;</li><li><strong>Hypertension Stage 1</strong><br />Hypertension Stage 1 is when blood pressure is consistently ranging from 130-139 systolic or 80-89 mm Hg&nbsp;diastolic. At this stage of high blood pressure, doctors are likely to prescribe lifestyle changes and may consider adding blood pressure medication&nbsp;based on your risk of atherosclerotic cardiovascular disease (ASCVD) such as heart attack or stroke. You can learn more about your risk by using the <a href="https://ccccalculator.ccctracker.com/"><em>Check</em>. Change. Control. Calculator&trade;.</a>&nbsp;&nbsp;<br />&nbsp;</li><li><strong>Hypertension Stage 2</strong><br />Hypertension Stage 2 is when blood pressure is consistently ranging at levels of 140/90 mm Hg&nbsp;or higher. At this stage of high blood pressure, doctors are likely to prescribe a combination of blood pressure medications along with lifestyle changes.<br />&nbsp;</li><li><strong>Hypertensive crisis</strong><br />This is when high blood pressure requires medical attention.If your blood pressure readings suddenly exceed 180/120 mm Hg, wait five minutes and test again. If your readings are still unusually high, contact your doctor immediately. You could be experiencing a&nbsp;<a href="/HEARTORG/Conditions/HighBloodPressure/GettheFactsAboutHighBloodPressure/Hypertensive-Crisis-When-You-Should-Call-9-1-1-for-High-Blood-Pressure_UCM_301782_Article.jsp">hypertensive crisis</a>. <span style="font-size: 9pt; font-family: &quot;Arial&quot;,sans-serif; line-height: 107%; mso-fareast-font-family: &quot;Times New Roman&quot;; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA">If your blood pressure is higher than 180/120 mm Hg and you are experiencing signs of possible organ damage such as chest pain, shortness of breath, back pain, numbness/weakness, change in vision, difficulty speaking, do not wait to see if your pressure comes down on its own. Call 9-1-1.</span></li></ul><hr /><p><strong>Your blood pressure numbers and what they mean </strong><br />Your blood pressure is recorded as two numbers:</p><ul><li><strong>Systolic blood pressure</strong> (the upper number) &mdash; indicates how much pressure your blood is exerting against your artery walls when the heart beats.<br />&nbsp;</li><li><strong>Diastolic blood pressure</strong> (the lower number) &mdash; indicates how much pressure your blood is exerting against your artery walls while the heart is resting between beats.</li></ul><p><strong>Which number is more important?</strong><br />Typically, more attention is given to systolic blood pressure (the top number) as a major risk factor for cardiovascular disease for people over 50. In most people, systolic blood pressure rises steadily with age due to the increasing stiffness of large arteries, long-term build-up of plaque and an increased incidence of cardiac and vascular disease. <br /><br />However, elevated systolic or diastolic blood pressure alone may be used to make a diagnosis of high blood pressure. And, according to recent studies, the risk of death from ischemic heart disease and stroke doubles with every 20 mm Hg systolic or 10 mm Hg diastolic increase among people from age 40 to 89.</p><hr /><p><strong>Why blood pressure is measured in mm Hg</strong><br />The abbreviation mm Hg means millimeters of mercury. Why mercury? Mercury was used in the first accurate pressure gauges and is still used as the standard unit of measurement for pressure in medicine.</p><hr /><p><strong>Taking your pulse versus checking your blood pressure </strong><br />Your blood pressure and heart rate (pulse) are two separate measurements and indicators of health. <a href="/HEARTORG/Conditions/HighBloodPressure/GettheFactsAboutHighBloodPressure/Blood-Pressure-vs-Heart-Rate-Pulse_UCM_301804_Article.jsp">Learn more about the difference between blood pressure and heart rate.</a></p>
+        </div> -->
+  <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+        <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <style>
+            #chartdiv {
+                width   : 100%;
+                height  : 500px;
+            }
+                                                    
+            </style>
+
+
+<!-- Chart code -->
+{% if entries %}
+<script type="text/javascript">
+var x =[];
+    {% for entry in reventries %}
+    x.push(
+        {
+        "category":"{{entry.created_at}}",
+        "column-1":"{{entry.systolic}}",
+        "column-2":"{{entry.diastolic}}"
+                        }
+    );
+    console.log(x);
+    {% endfor %}
+            AmCharts.makeChart("chartdiv",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "startDuration": 1,
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "bullet": "round",
+                            "id": "AmGraph-1",
+                            "title": "Systolic",
+                            "valueField": "column-1"
+                        },
+                        {
+                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "bullet": "square",
+                            "id": "AmGraph-2",
+                            "title": "Diastolic",
+                            "valueField": "column-2"
+                        }
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "ValueAxis-1",
+                            "title": "mmHg"
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 15,
+                            "text": "Blood Pressure"
+                        }
+                    ],
+                    "dataProvider": x
+                }
+            );
+        </script>
+
+
+
+    <div id="chartdiv" ></div>
+{% endif %}
+<!-- style="width: 100%; height: 400px; background-color: #FFFFFF;" -->
+<br>
+<hr>
+<center>
+        <small class="form-text">&reg; 2018, Team Poggers FTW!</small><br>
+
+    
+</center>
+
+    </div>
+</body>
+
+</html>

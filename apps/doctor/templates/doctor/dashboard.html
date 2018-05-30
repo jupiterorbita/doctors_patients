@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <title>Doctor's dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'doctor/css/doctor_dashboard.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop()) {
+                $('nav').addClass('black');
+            }
+            else {
+                $('nav').removeClass('black')
+            }
+        })
+    </script>
+</head>
+<body>
+
+    <div class="wrapper">
+        <nav>
+            <div class="logo">
+                <img src="{% static 'patient/images/logo_full_hor.png' %}" /> </div>
+            <ul>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/patient/about">About</a>
+                </li>
+                <li>
+                    <a href="/doctor/edit"> {{doctor.first_name}} {{doctor.last_name}} </a>
+                </li>
+                <li>
+                    <a class='active' href="/patient/logout">logout</a>
+                </li>
+            </ul>
+        </nav>
+
+        <section class='content'>
+            <hr>
+            
+        </section>
+      
+<h3>Your patients:</h3>
+
+<div class="left_table">
+
+    
+    <section class='table'>
+        <table class='table'>
+            <thead class='thead-dark'>
+                <th scope="col">full name</th>
+                <th scope="col">diabetes</th>
+                <th scope="col">wieght</th>
+                <th scope="col">height</th>
+				<th scope="col">phone#</th>
+				<th scope="col">DOB</th>
+				<th scope="col">email</th>
+            </thead>
+			{% for patient in patients %}    
+				<tbody>
+					<td><a href='/doctor/patient/{{patient.id}}'>{{patient.first_name}} {{patient.last_name}}</a></td>
+					<td>{{patient.diabetes}}</td>
+					<td>{{patient.weight}}</td>
+					<td>{{patient.height}}</td>
+					<td><a href="tel:{{patient.phone}}">&#x260E;{{patient.phone}}</a></td>
+					<td>{{patient.dob}}</td>
+					<td><a href="mailto:{{patient.email}}">&#x2709;{{patient.email}}</a></td>
+				</tbody>
+			{% endfor %}
+		</table>
+    </section>
+    <hr>
+    <center>
+        <small class="form-text">&reg; 2018, Team Poggers FTW!</small><br>
+    </center>
+</body>
+
+</html>

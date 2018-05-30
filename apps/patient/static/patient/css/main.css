@@ -1,0 +1,229 @@
+/* ================= NAVBAR ===============*/
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Quicksand;
+}
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    padding: 10px 100px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+nav.black{
+    background: rgba(0,0,0,0.8);
+    height: 100px;
+    padding: 10px 100px;
+}
+nav .logo{
+    padding: 10px 15px;
+    height: 80px;
+    float: left;
+    font-size: 24px;
+    transition: .3s;
+}
+
+nav.black .logo{
+    color: #fff;
+}
+
+nav ul{
+    list-style: none;
+    float: right;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li{
+    list-style: none;
+}
+nav ul li a{
+    line-height: 80px;
+    color: #151515;
+    padding: 12px 30px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: .3s;
+}
+
+nav.black ul li a{
+    color: #fff;
+}
+
+nav ul li a:focus {
+    outline: none;
+}
+
+nav ul li a.active{
+    background: #E2472F;
+    color: #fff;
+    border-radius: 6px;
+}
+
+section.sec1{
+    width: 100%;
+    height: 50vh;
+    margin-top: 90px;
+    background-image: url('../images/bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.content{
+    margin-top: 80px;
+}
+
+.content p {
+    width: 900px;
+    margin: 30px auto;
+    text-align: justify;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+/* =============== END NAV BAR ================= */
+
+/* ============ for the center text ============= */
+.content-wrapper{
+    width: 80%;
+    margin: 4% 10% 5% 10%;
+}
+ 
+.content-wrapper img{
+    width: 100%;
+}
+ 
+.text-wrapper{
+    width: 100%;
+    /* position: relative; */
+    /* margin-top: -40%; */
+}
+ 
+.text-wrapper h1{
+    text-align: center;
+    color: rgba(8,38,93);
+    font-size: 10vw;
+    font-family: 'lobster', cursive;
+}
+/* =========== end center text ================ */
+
+/* table{
+    width: 100%;
+} */
+
+section.table{
+    width: 900px;
+    margin: 30px auto;
+}
+
+section.login_page{
+    width: 500px;
+    margin: 170px auto;
+}
+section.registration_page{
+    width: 700px;
+    margin: 120px auto;
+}
+
+.messages_error{
+    color: red;
+}
+
+/* about==== page    */
+h1.meet{
+    width: 500px;
+    margin: 170px auto;
+}
+
+section.sec_about{
+width: 100%;
+height: 50vh;
+margin-top: 90px;
+/* background-image: url('../images/about_bg.png'); */
+background-image: url('../images/about.jpg');
+background-size: cover;
+background-position: center;
+}
+div.threedivs{
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+}
+div.civs{
+    /* padding: 30px; */
+    width: 300px;
+    padding: 10px 10px 20px 10px;
+    min-height: 200px;
+    display: inline-block;
+    margin-left: 30px;
+    vertical-align: top;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+}
+
+img.profile{
+    max-width: 80%; 
+    max-height: auto; 
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+/* edit patient */
+
+section.spacer{
+    margin-top: 50px;
+}
+
+
+/* REGISTRATION */
+.fname{
+    width: 49%;
+    display: inline-block;
+}
+.lname{
+    width: 50%;
+    display: inline-block;
+}
+.city{
+    width:33%;
+    display: inline-block;
+}
+.state{
+    width:33%;
+    display: inline-block;
+}
+.zip{
+    width:32.5%;
+    display: inline-block;
+}
+.tel{
+    width:49%;
+    display: inline-block;
+}
+.dob{
+    width:50%;
+    display: inline-block;
+}
+.weight, .height{
+    width: 20%;
+    display: inline-block;
+}
+div.diab{
+    width: 20%;
+    margin-left: 25px;
+    display: inline-block;
+}
+div.doc_select{
+    margin-left: 15px;
+    display: inline-block;
+}
+h1.meet1{
+    text-align: center;
+    margin-top: -20px;
+ }
